@@ -1,13 +1,36 @@
 import { useLocation } from 'react-router-dom';
-import React from 'react';
+import React, { useState } from 'react';
 import useSWR from 'swr';
 import axios from 'axios';
 const Description = () => {
   let location = useLocation();
-  const fetcher = (url) => axios.get(url).then((res) => res.data);
-  const { data, error } = useSWR(
+  const [abilityName, setAbilityName] = useState();
+  const characteristicFetcher = (url) => axios.get(url).then((res) => res.data);
+  const { data: characteristic } = useSWR(
     `https://pokeapi.co/api/v2/characteristic/${location.state.data.id}`,
-    fetcher
+    characteristicFetcher
+  );
+
+  const genderFetcher = (url) => axios.get(url).then((res) => res.data);
+  const { data: gender } = useSWR(
+    `https://pokeapi.co/api/v2/gender/${location.state.data.id}`,
+    genderFetcher
+  );
+  const colorFetcher = (url) => axios.get(url).then((res) => res.data);
+  const { data: color } = useSWR(
+    `https://pokeapi.co/api/v2/pokemon-color/${location.state.data.id}`,
+    colorFetcher
+  );
+  const shapeFetcher = (url) => axios.get(url).then((res) => res.data);
+  const { data: shape } = useSWR(
+    `https://pokeapi.co/api/v2/pokemon-shape/${location.state.data.id}`,
+    shapeFetcher
+  );
+
+  const abilitiesFetcher = (url) => axios.get(url).then((res) => res.data);
+  const { data: abilities } = useSWR(
+    abilityName ? `https://pokeapi.co/api/v2/ability/${abilityName}` : null,
+    abilitiesFetcher
   );
 
   return (
@@ -16,23 +39,36 @@ const Description = () => {
         <h1 className='capitalize font-semibold text-gray-800'>{location.state.data.name}</h1>
         <div className='flex flex-col md:flex md:flex-row md:items-center md:space-x-6 lg:flex lg:flex-row lg:items-center lg:space-x-6'>
           <img
-            className='object-none h-20 bg-white shadow-lg border border-gray-100 '
+            className='object-none h-20 bg-white shadow-lg border border-gray-50 '
             src={location.state.data.sprites.front_default}
           ></img>
           <div className='bg-white h-autoflex flex-col space-y-6'>
             <p className='text-md font-medium text-gray-600'>
-              {data && data.descriptions[2].description}
+              {characteristic && characteristic.descriptions[2].description}
             </p>
-            <div className='bg-blue-500 py-4 flex w-72 rounded-md justify-around text-white text-sm font-semibold'>
+
+            <div className='bg-blue-300 py-4 flex w-72 rounded-md justify-around text-white text-sm font-semibold'>
               <div>
+                <div>Color: {color && color.name}</div>
+                <div>Gender: {gender && gender.name}</div>
+                <div>Shape: {shape && shape.name}</div>
                 <div>Height: {location.state.data.height}</div>
                 <div>Weight: {location.state.data.weight}</div>
               </div>
               <div>
-                <div>
+                <div className='flex flex-col space-y-2'>
                   Abilities:{' '}
-                  {location.state.data.abilities.map((ability, index) => {
-                    return <div className='text-left'>{ability.ability.name}</div>;
+                  {location.state.data.abilities.map((ability) => {
+                    return (
+                      <button
+                        onClick={() => {
+                          setAbilityName(ability.ability.name);
+                        }}
+                        className='text-left bg-blue-500 rounded-md font-medium text-sm px-2'
+                      >
+                        {ability.ability.name}
+                      </button>
+                    );
                   })}
                 </div>
               </div>
@@ -49,6 +85,7 @@ const Description = () => {
               </div>
             </div>
           </div>
+          <div>{abilities && abilities.effect_entries[0].effect}</div>
         </div>
       </div>
     </>
