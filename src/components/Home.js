@@ -5,7 +5,7 @@ const Home = () => {
   const { data, next, isValidating } = usePokemonList();
 
   return (
-    <div className='container  flex flex-col items-center h-screen py-5 m-auto'>
+    <div className='container flex flex-col items-center h-screen py-5 m-auto'>
       <div className='grid mt-32 items-center justify-center grid-cols-3 gap-16 md:grid-cols-5'>
         {data?.map((pokemon, index) => (
           <Card pokemon={pokemon} key={index} id={index + 1} />

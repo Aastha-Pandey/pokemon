@@ -24,15 +24,21 @@ const Description = () => {
         <div className='bg-yellow-600 text-yellow-50 font-medium text-sm py-1 px-2 rounded-md'>
           Weight: {weight}
         </div>
-        <div className='bg-yellow-600 text-yellow-50 font-medium text-sm py-1 px-2 rounded-md'>
-          Gender: {gender}
-        </div>
-        <div className='bg-yellow-600 text-yellow-50 font-medium text-sm py-1 px-2 rounded-md'>
-          Shape: {shape}
-        </div>
-        <div className='bg-yellow-600 text-yellow-50 font-medium text-sm py-1 px-2 rounded-md'>
-          Color: {color}
-        </div>
+        {gender && (
+          <div className='bg-yellow-600 text-yellow-50 font-medium text-sm py-1 px-2 rounded-md'>
+            Gender: {gender}
+          </div>
+        )}
+        {shape && (
+          <div className='bg-yellow-600 text-yellow-50 font-medium text-sm py-1 px-2 rounded-md'>
+            Shape: {shape}
+          </div>
+        )}
+        {color && (
+          <div className='bg-yellow-600 text-yellow-50 font-medium text-sm py-1 px-2 rounded-md'>
+            Color: {color}
+          </div>
+        )}
       </div>
       <div className='flex justify-center pt-4 space-x-4 text-xl font-semibold text-yellow-800'>
         {' '}
