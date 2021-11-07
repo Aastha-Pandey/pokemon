@@ -7,9 +7,10 @@ const Routing = () => {
   return (
     <>
       <Router>
-        <Routes>
-          <Route exact path='/' element={<Home />} />
-          <Route exact path='/:name' element={<Description />} />
+        <Routes path="/">
+          <Route   index element={<Home />} />
+          <Route  path=':name/*'  element={<Description />} />
+
         </Routes>
       </Router>
     </>
